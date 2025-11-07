@@ -1,0 +1,78 @@
+ clc; clear; close all;
+ % --- PARAMETERS (use these to reproduce your notebook images) -
+wc = 0.5*pi;
+ % cutoff frequency in radians/sample (0..pi). Use 0.5*pi
+ M  = 11;
+ % filter length (number of taps) - use 11 to match images
+ % --- ideal impulse response (linear-phase, centered) -
+n = 0:(M-1);
+ alpha = (M-1)/2;
+ h = zeros(1,M);
+ for i = 1:M
+ if n(i) == alpha
+        h(i) = wc/pi;
+ else
+        h(i) = sin(wc*(n(i)-alpha)) / (pi*(n(i)-alpha));
+ end
+ end
+ % --- windows (MATLAB function names) -
+wr  = boxcar(M);
+ wh  = hamming(M);
+ whn = hann(M);
+ wb  = blackman(M);
+ wbr = bartlett(M);
+ % --- apply windows -
+h_rect    = h .* wr';
+ h_hamming = h .* wh';
+ h_hanning = h .* whn';
+ h_blackman= h .* wb';
+ h_bartlett= h .* wbr';
+ % rectangular
+ % Hamming
+ % Hanning (use hann or hanning)
+ % Blackman
+ % Bartlett
+ % --- display coefficients (formatted) -
+fprintf('\nIdeal filter coefficients (h):\n');
+ disp(h);
+ fprintf('\nRectangular windowed filter coefficients (h_rect):\n');
+ disp(h_rect);
+ fprintf('\nHamming windowed filter coefficients (h_hamming):\n');
+ disp(h_hamming);
+ fprintf('\nHanning windowed filter coefficients (h_hanning):\n');
+ disp(h_hanning);
+ fprintf('\nBlackman windowed filter coefficients (h_blackman):\n');
+ disp(h_blackman);
+ 1
+ fprintf('\nBartlett windowed filter coefficients (h_bartlett):\n');
+ disp(h_bartlett);
+ % --- frequency response plotting (one window per figure to match photos) -
+Nfft = 512;  % frequency resolution
+ figure;
+ freqz(h_rect,1,Nfft);
+ 1
+ title('Frequency response of filter designed using Rectangular window');
+ figure;
+ freqz(h_hamming,1,Nfft);
+ title('Frequency response of filter designed using Hamming window');
+ figure;
+ freqz(h_hanning,1,Nfft);
+ title('Frequency response of filter designed using Hanning window');
+ figure;
+ freqz(h_blackman,1,Nfft);
+ title('Frequency response of filter designed using Blackman window');
+ figure;
+ freqz(h_bartlett,1,Nfft);
+ title('Frequency response of filter designed using Bartlett window');
+ % --- also show windows for clarity (optional) -
+figure;
+ subplot(5,1,1); stem(wr,'filled'); title('Rectangular window'); ylim([-0.05
+ 1.05]);
+ subplot(5,1,2); stem(wh,'filled'); title('Hamming window'); ylim([-0.05
+ 1.05]);
+ subplot(5,1,3); stem(whn,'filled'); title('Hanning window'); ylim([-0.05
+ 1.05]);
+ subplot(5,1,4); stem(wb,'filled'); title('Blackman window'); ylim([-0.05
+ 1.05]);
+ subplot(5,1,5); stem(wbr,'filled'); title('Bartlett window'); ylim([-0.05
+ 1.05]);
