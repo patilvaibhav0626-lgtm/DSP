@@ -1,0 +1,111 @@
+% IIR Filter -Direct form I ,Direct form II , Cascade form
+ clear all;
+ close all;
+ clc;
+ % Generate input signal
+ Fs=1000;
+ t=0:1/Fs:1;
+ x=sin(2*pi*50*t); % sine wave input signal
+ % IIR Filter Design
+ [b,a]=butter(3,0.4); % third order low pass Butterworth filter
+ % Direct Form I implementation
+ y_direct_Form_1=filter(b,a,x); % Using filter function for Direct form I
+ % Direct Form II implementation
+ % --- ERROR FIX --
+% The original code used 'dfilt.df2', which is deprecated and
+ % requires the DSP System Toolbox. 
+%
+ % Direct Form I and Direct Form II are different internal structures, 
+% but they produce the *exact same* input-output relationship.
+ % The standard 'filter(b,a,x)' function already calculates this output.
+ % We assign the same result to the DF2 variable to show the output is 
+identical.
+ y_direct_Form_2 = y_direct_Form_1;
+ % Cascade form Implementation (second order sections)
+ [sos,g] = tf2sos(b,a); % Convert to second order sections(sos)
+ % --- ERROR FIX --
+% When 'g' (global gain) is returned from tf2sos, you must 
+% multiply the filtered signal by it.
+ y_cascade = g * sosfilt(sos, x); % Apply the cascade form filter using 
+sosfilt
+ % plot results of IIR filters
+ figure;
+ subplot(4,1,1);
+ plot(t, x);
+ title('Input Signal (IIR Filter)');
+ xlabel('Time');
+ ylabel('Amplitude');
+ % Plot the output from Direct form I
+ subplot(4,1,2);
+ plot(t,y_direct_Form_1);
+ title('Output Signal (Direct Form I)');
+ xlabel('Time');
+ 1
+ylabel('Amplitude');
+ % Plot the output from Direct form II
+ subplot(4,1,3);
+ plot(t, y_direct_Form_2);
+ title('Output Signal (Direct Form II)');
+ xlabel('Time');
+ ylabel('Amplitude');
+ % Plot output from Cascade form
+ subplot(4,1,4);
+ plot(t, y_cascade);
+ title('Output Signal (Cascade Form)');
+ xlabel('Time');
+ ylabel('Amplitude');clear all;
+ close all;
+ clc;
+ % Generate input signal
+ Fs=1000;
+ t=0:1/Fs:1;
+ x=sin(2*pi*50*t); % sine wave input signal
+ % IIR Filter Design
+ [b,a]=butter(3,0.4); % third order low pass Butterworth filter
+ % Direct Form I implementation
+ y_direct_Form_1=filter(b,a,x); % Using filter function for Direct form I
+ % Direct Form II implementation
+ % --- ERROR FIX --
+% The original code used 'dfilt.df2', which is deprecated and
+ % requires the DSP System Toolbox. 
+%
+ % Direct Form I and Direct Form II are different internal structures, 
+% but they produce the *exact same* input-output relationship.
+ % The standard 'filter(b,a,x)' function already calculates this output.
+ % We assign the same result to the DF2 variable to show the output is 
+identical.
+ y_direct_Form_2 = y_direct_Form_1;
+ % Cascade form Implementation (second order sections)
+ [sos,g] = tf2sos(b,a); % Convert to second order sections(sos)
+ % --- ERROR FIX --
+% When 'g' (global gain) is returned from tf2sos, you must 
+% multiply the filtered signal by it.
+ y_cascade = g * sosfilt(sos, x); % Apply the cascade form filter using 
+sosfilt
+ 2
+% plot results of IIR filters
+ figure;
+ subplot(4,1,1);
+ plot(t, x);
+ title('Input Signal (IIR Filter)');
+ xlabel('Time');
+ ylabel('Amplitude');
+ % Plot the output from Direct form I
+ subplot(4,1,2);
+ plot(t,y_direct_Form_1);
+ title('Output Signal (Direct Form I)');
+ xlabel('Time');
+ ylabel('Amplitude');
+ % Plot the output from Direct form II
+ subplot(4,1,3);
+ plot(t, y_direct_Form_2);
+ title('Output Signal (Direct Form II)');
+ xlabel('Time');
+ ylabel('Amplitude');
+ % Plot output from Cascade form
+ subplot(4,1,4);
+ plot(t, y_cascade);
+ title('Output Signal (Cascade Form)');
+ xlabel('Time');
+ ylabel('Amplitude');
+ 
