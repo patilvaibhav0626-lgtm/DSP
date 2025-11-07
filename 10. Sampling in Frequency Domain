@@ -1,0 +1,61 @@
+% Sampling Theorem in Frequency Domain
+ clc;
+ clear all;
+ close all;
+ % Signal Parameters
+ T = 1;              
+f0 = 10;            
+% Sampling rates
+ fs_under = 15;      
+fs_nyquist = 20;    
+fs_over = 100;      
+% Signal duration in seconds
+ % Signal frequency (Hz)
+ % Undersampled (fs < 2f0)
+ % Nyquist rate (fs = 2*f0)
+ % Oversampled (fs > 2*f0)
+ % Prepare figure
+ figure('Name','Sampling Theorem Verification','NumberTitle','off');
+ subplot_index = 1;
+ subplot_title = 'Undersampled (fs = 15 Hz)';
+ subplot_index = plot_time_and_fft(fs_under, T, f0, subplot_index, 
+subplot_title);
+ subplot_title = 'Nyquist Sampled (fs = 20 Hz)';
+ subplot_index = plot_time_and_fft(fs_nyquist, T, f0, subplot_index, 
+subplot_title);
+ subplot_title = 'Oversampled (fs = 100 Hz)';
+ subplot_index = plot_time_and_fft(fs_over, T, f0, subplot_index, 
+subplot_title);
+ % Function to Plot Time and FFT
+ function next_subplot = plot_time_and_fft(fs, T, f0, subplot_start, label)
+    t = 0:1/fs:T-1/fs;           
+    x = sin(2*pi*f0*t);          
+    N = length(x);               
+% Time vector
+ % Sampled signal
+ % Number of samples
+ % Compute FFT and frequency vector
+    X = fft(x);
+    X_mag = abs(X)/N;
+    f = (0:N-1)*(fs/N);
+ % Plot time-domain
+    subplot(3,2,subplot_start);
+    stem(t, x, 'filled');
+    title([label ' - Time Domain']);
+    xlabel('Time (s)');
+    ylabel('Amplitude');
+    grid on;
+    xlim([0 0.5]);               
+% Limit to half second for clarity
+ 1
+% Plot frequency-domain
+    subplot(3,2,subplot_start+1);
+    stem(f(1:floor(N/2)), X_mag(1:floor(N/2)), 'filled');
+    title([label ' - Frequency Domain']);
+    xlabel('Frequency (Hz)');
+    ylabel('Magnitude');
+    grid on;
+    xlim([0 fs/2]);              
+% Plot up to Nyquist frequency
+    next_subplot = subplot_start + 2;
+ end
