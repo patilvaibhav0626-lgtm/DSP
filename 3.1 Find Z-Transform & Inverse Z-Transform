@@ -1,0 +1,35 @@
+% To find Z-transform and Inverse Z-transform
+ clc;
+ clear all;
+ close all;
+ syms z n
+ % Define signal
+ f = 0.3^n;
+ % Z-transform
+ d = ztrans(f, n, z);
+ disp('Z-transform is:');
+ pretty(d)    
+% pretty shows in readable math format
+ % Inverse Z-transform
+ invD = iztrans(d, z, n);
+ disp('Inverse Z-transform is:');
+ pretty(invD)
+ % Transfer function coefficients
+ num = [0 1 1];   
+% numerator
+ den = [1 -2 3];  % denominator
+ % Find zeros and poles
+ c = roots(num);
+ d = roots(den);
+ disp('Zeros of Transfer Function:');
+ disp(c);
+ disp('Poles of Transfer Function:');
+ disp(d);
+ % Frequency response
+ figure;
+ freqz(num, den);
+ title('Frequency Response');
+ % Pole-zero plot
+ figure;
+ zplane(num, den);
+ title('Pole-Zero Plot');
