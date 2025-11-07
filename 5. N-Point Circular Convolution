@@ -1,0 +1,20 @@
+clc;
+ clear;
+ close all;
+ xn1 = [2 3 4 5];
+ xn2 = [1 2 2 2];
+ N = length(xn1);
+ % Construct circulant matrix from xn1
+ m = zeros(N);
+ for j = 1:N
+    m(:,j) = circshift(xn1.', j-1); % shift xn1 down by (j-1)
+ end
+ % Circular convolution via matrix multiplication
+ xn = m * xn2.';
+ % Display results
+ disp('Circular convolution result via matrix multiplication:');
+ disp(xn.');
+ % Using built-in function for circular convolution (via ifft)
+ xnc = ifft(fft(xn1).*fft(xn2));
+ disp('Circular convolution result using fft and ifft:');
+ disp(real(xnc).');  % real part, to avoid numerical imaginary errors
