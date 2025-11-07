@@ -1,0 +1,35 @@
+% Problem Statement: To plot poles and zeros of transfer function when the
+ % coefficients of the transfer function are given. Study stability of
+ % different transfer functions.
+ close all;
+ clear all;
+ clc;
+ num = [1 2 4];
+ den = [3 7 5 6];
+ c = roots(num);
+ d = roots(den);
+ disp('Zeros of transfer function:');
+ disp(c);
+ disp('Poles of Transfer function:');
+ disp(d);
+ zplane(num, den);
+ N = max(length(num), length(den));
+ x = 0;
+ Yo = 0;
+ s = 0;
+ zi = zeros(1, N-1);
+ for n = 1:1000
+    [Y, zf] = filter(num, den, x, zi);
+ if abs(Y) < 0.000001
+ break;
+ end
+    x = 0;
+    s = s + abs(Y);
+    Yo = Y;
+    zi = zf;
+ end
+ if n < 1000
+    disp('Stable transfer function');
+ else
+    disp('Unstable transfer function');
+ end
