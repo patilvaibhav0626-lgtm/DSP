@@ -1,0 +1,35 @@
+% LINEARITY PROPERTY OF DFT - input x1 and x2 signals
+ clc; clear; close all;
+ a = 2; b = 3;
+ xn1 = [3 2 4 8];
+ xn2 = [4 5 7 2];
+ % ensure row vectors and equal length (zero-pad)
+ xn1 = xn1(:).';
+ xn2 = xn2(:).';
+ N = max(length(xn1), length(xn2));
+ xn1 = [xn1 zeros(1, N - length(xn1))];
+ xn2 = [xn2 zeros(1, N - length(xn2))];
+ % compute DFTs
+ xn = a*xn1 + b*xn2;
+ LHS = fft(xn, N);
+ X1  = fft(xn1, N);
+ X2  = fft(xn2, N);
+ RHS = a*X1 + b*X2;
+ % numeric check
+ diff_vec = LHS - RHS;
+ max_err = max(abs(diff_vec));
+ tol = 1e-12;
+ fprintf('max|LHS - RHS| = %.3e\n', max_err);
+ if max_err < tol
+    fprintf('Linearity verified (within tol = %g).\n', tol);
+ else
+    fprintf('Linearity NOT verified (exceeds tol = %g).\n', tol);
+ end
+ % optional: show values and simple plot
+ disp('LHS = '), disp(LHS);
+ disp('RHS = '), disp(RHS);
+ figure;
+ subplot(2,1,1);
+ stem(0:N-1, real(LHS), 'filled'); grid on; title('Real\{LHS\}');
+ subplot(2,1,2);
+ stem(0:N-1, real(RHS), 'filled'); grid on; title('Real\{RHS\}');
