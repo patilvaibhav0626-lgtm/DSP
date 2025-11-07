@@ -1,0 +1,25 @@
+% Bandpass Filter Design Butterworth Filter
+ clc;
+ clear all;
+ fs=2000;  % Sampling Frequency
+ fp1=200;
+ %Lower passband Edge
+ fp2=300;
+ % Higher Passband Edge
+ % Normalized frequencies
+ wp1= 2*pi*fp1/fs;
+ wp2=2*pi*fp2/fs;
+ % Design Butterworth Analog filter
+ [b,a]=butter(2,[wp1,wp2],'bandpass');
+ % Convert analog filter to digital filter using Bilinear transformation
+ [z,p,k]=butter(2,[wp1,wp2],'bandpass','s');
+ [bz,az]=bilinear(z,p,k,fs);
+ %frequency response
+ [h,f]=freqz(bz,az,1024,fs);
+ % Plot frequency response
+ figure;
+ plot(f, 20*log10(abs(h)));
+ xlabel('Frequency (Hz)');
+ ylabel('Magnitude (dB)');
+ title('Frequency Response of the Bandpass Filter');
+ grid on;
