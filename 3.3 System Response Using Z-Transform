@@ -1,0 +1,38 @@
+% To solve the difference equation and find the system response using Z 
+transform
+ clc;
+ clear all;
+ close all;
+ disp('Coefficients of Numerator:');
+ b = [1];
+ disp('Coefficients of Denominator:');
+ a = [1 -1 0.9];
+ xn = [1 zeros(1,49)];
+ N = 100;
+ yi = [-1 0 0];
+ initialc = filtic(b, a, yi);
+ subplot(4,1,1);
+ stem(xn);
+ xlabel('Time');
+ ylabel('Amp');
+ title('Input sequence');
+ yTotal=filter(b, a, xn, initialc);
+ yforced = filter(b, a, xn);
+ subplot(4,1,2);
+ stem(yforced);
+ xlabel('Time');
+ ylabel('Amplitude');
+ title('Forced Response');
+ ynatural = yTotal - yforced;
+ subplot(4,1,3);
+ stem(ynatural)
+ xlabel('Time');
+ ylabel('Amplitude');
+ title('Natural Response');
+ subplot(4,1,4);
+ yTotal = filter(b, a, xn, initialc);
+ subplot(4,1,4);
+ stem(yTotal);
+ xlabel('Time');
+ ylabel('Amp');
+ title('Total response');
