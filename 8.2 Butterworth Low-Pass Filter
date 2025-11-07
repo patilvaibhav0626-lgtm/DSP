@@ -1,0 +1,30 @@
+clear all; close all; clc;
+ fs = 1280;
+ wp = 2*pi*150;
+ fn = fs/2;
+ t = 1/fs;
+ wpp = tan(wp*t/2);
+ [num, den] = butter(2, 1, 's');
+ printsys(num, den)
+ [num1, den1] = lp2lp(num, den, wpp);
+ printsys(num1, den1)
+ [numd, dend] = bilinear(num1, den1, fn/fs);
+ printsys(numd, dend, 'z');
+ [h, f] = freqz(numd, dend, 512, fs);
+ mag = abs(h);
+ plot(f, mag);
+ grid;
+ xlabel('Frequency (Hz)');
+ ylabel('Magnitude (dB)');
+ figure;
+ poles = roots(dend);
+ disp('poles:');
+ disp(poles);
+ zeros = roots(numd);
+ disp('zeros:');
+ disp(zeros);
+ zplane(numd, dend);
+ figure;
+ dimpulse(numd, dend);
+ figure;
+ dstep(numd, dend);
