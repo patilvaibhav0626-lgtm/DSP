@@ -1,0 +1,37 @@
+% Verify Parseval's Theorem (DFT)
+ % Parseval's Theorem Verification
+ % Verify Parseval's Theorem (DFT)
+ clc;
+ clear;
+ close all;
+ % Define the discrete-time sequence
+ xn = [1 2 3 4];
+ % input sequence
+ xn = xn(:).';
+ N  = length(xn);
+ % ensure row vector
+ % sequence length
+ % Time-domain energy (LHS)
+ LHS = sum(abs(xn).^2);
+ % sum of squares of xn
+ % Frequency-domain energy (RHS)
+ X   = fft(xn, N);
+ % N-point DFT of xn
+ RHS = sum(abs(X).^2)/N;  % (1/N) * sum of squared magnitudes
+ % Display results
+ fprintf('Discrete-time sequence xn = [%s]\n', num2str(xn));
+ fprintf('LHS = sum(|xn|^2) = %g\n', LHS);
+ fprintf('RHS = (1/N) * sum(|Xk|^2) = %g\n', RHS);
+ fprintf('Difference (LHS - RHS) = %g\n', abs(LHS - RHS));
+ % Check Parseval's theorem
+ tol = 1e-12;
+ if abs(LHS - RHS) < tol
+    disp('Parseval''s theorem VERIFIED.');
+ else
+    disp('Parseval''s theorem NOT verified.');
+ end
+ % Display DFT magnitude spectrum
+ disp('DFT Xk = ');
+ disp(X);
+ disp('|Xk|^2 = ');
+ disp(abs(X).^2);
