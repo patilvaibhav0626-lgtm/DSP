@@ -1,0 +1,16 @@
+% LINEARITY PROPERTY OF DFT
+ clc;
+ clear;
+ close all;
+ a = 2; b = 3;
+ xn1 = [3 2 4 8];
+ xn2 = [4 5 7 2];
+ xn = a*xn1 + b*xn2;
+ LHS = fft(xn);
+ RHS = a*fft(xn1) + b*fft(xn2);
+ fprintf('Max difference = %g\n', max(abs(LHS - RHS)));
+ if max(abs(LHS - RHS)) < 1e-12
+    disp('Linearity VERIFIED.');
+ else
+    disp('Linearity NOT verified.');
+ end
